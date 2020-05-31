@@ -20,12 +20,10 @@ public class Application {
         Resource resource1 = new Resource();
         resource1.setName("test1");
         resource1.setPath(System.getProperty("user.dir")+"/resources/test1.txt");
-        //resource1.setAllowedAction(Arrays.asList(ActionType.READ, ActionType.WRITE, ActionType.DELETE));
 
         Resource resource2 = new Resource();
         resource2.setName("test2");
         resource2.setPath(System.getProperty("user.dir")+"/resources/test2.txt");
-        //resource2.setAllowedAction(Arrays.asList(ActionType.READ,ActionType.DELETE));
 
         Role role1 = new Role();
 
@@ -42,14 +40,20 @@ public class Application {
         role2.setResourceList(resourceList2);
 
         User user = new User("username1", "password1");
-        user.addRole(role1);
 
         DataRepository dataRepo = new DataRepositoryImpl();
         dataRepo.addUser(user);
 
         RBACService service = new RBACServiceImpl(dataRepo);
+
+        service.addRole(user.getUserId(),role1);
         System.out.println(service.isAuthorized(user.getUserId(), "READ", "test1"));//true
         System.out.println(service.isAuthorized(user.getUserId(), "WRITE", "test2"));//false
 
+        service.removeRole(user.getUserId(),role1);
+        service.addRole(user.getUserId(),role2);
+
+        System.out.println(service.isAuthorized(user.getUserId(), "DELETE", "test1"));//false
+        System.out.println(service.isAuthorized(user.getUserId(), "DELETE", "test2"));//true
     }
 }

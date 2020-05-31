@@ -12,4 +12,5 @@ public interface DataRepository {
     String addUser(User user);
     Map<String, Object> getData();
     String getUserAuthKey(User user, String fileName, String actionType);
+    void updateUserAuthKeySet(User user);
 }

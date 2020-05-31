@@ -27,6 +27,22 @@ public class RBACServiceImpl implements RBACService {
         }
     }
 
+    @Override
+    public boolean addRole(String userId, Role role) {
+        User user = searchUser(userId);
+        boolean added = user.addRole(role);
+        dataRepository.updateUserAuthKeySet(user);
+        return added;
+    }
+
+    @Override
+    public boolean removeRole(String userId,Role role) {
+        User user = searchUser(userId);
+        boolean removed = user.removeRole(role);
+        dataRepository.updateUserAuthKeySet(user);
+        return removed;
+    }
+
     public boolean isAuthorized(String userId, String actionType, String resourceName) {
         User user = searchUser(userId);
         Set<String> authKeySet = (Set<String>) dataRepository.getData().get("authKey");

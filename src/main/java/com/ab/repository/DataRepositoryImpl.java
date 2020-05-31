@@ -23,12 +23,19 @@ public class DataRepositoryImpl implements DataRepository{
             data.put("user",userMap);
         }
         userMap.put(user.getUserId(), user);
+        updateUserAuthKeySet(user);
+        return user.getUserId();
+    }
 
+    public void updateUserAuthKeySet(User user) {
         Set<String> authKeySet = (Set<String>) data.get("authKey");
-        if (authKeySet == null){
-            authKeySet = new HashSet<String>();
+        /*if (authKeySet == null){
+            authKeySet = new HashSet<>();
             data.put("authKey",authKeySet);
-        }
+        }*/
+
+        authKeySet = new HashSet<>();
+        data.put("authKey",authKeySet);
 
         Map<String, List<ActionType>> allResources = user.getAllResources();
 
@@ -41,7 +48,6 @@ public class DataRepositoryImpl implements DataRepository{
                 authKeySet.add(getUserAuthKey(user,resourceName,actionType.name()));
             }
         }
-        return user.getUserId();
     }
 
     public Map<String, Object> getData() {
