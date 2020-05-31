@@ -8,9 +8,11 @@ Entities are USER, ACTION TYPE, RESOURCE, ROLE
 
 ACTION TYPE defines the access level(Ex: READ, WRITE, DELETE)
 
-Access to resources for users are controlled strictly by the role.One user can have multiple roles. Given a user, action type and resource system should be able to tell whether user has access or not.
+Access to resources for users is controlled strictly by the role.One user can have multiple roles. 
+Given a user, action type and resource system should be able to tell whether user has access or not.
 
 
 ###### How to test:
 
 Run Application.java
+It uses isAuthorized(user,actionType,resource) method of service layer to verify access.
